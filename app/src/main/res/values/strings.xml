@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PushNotificationDemo</string>
+    <string name="get_token">Get Token</string>
+</resources>
