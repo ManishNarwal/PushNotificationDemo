@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if (!checkPermission()) {
+        if (!checkPermissions()) {
             requestPermissions();
         }
         binding.btnToken.setOnClickListener(v -> {
@@ -51,21 +51,31 @@ public class MainActivity extends AppCompatActivity {
                 String token = task.getResult();
                 Log.d(TAG, "Token: " + token);
                 binding.tvToken.setText(token);
+                binding.tvDeviceID.setText(DeviceUuidFactory.getDeviceUuid(this));
+                binding.tvIMEI.setText(DeviceUuidFactory.getIMEI(this));
             });
+            Log.e(TAG, "UUID : " + DeviceUuidFactory.getDeviceUuid(this));
+            Log.e(TAG, "UUID : " + DeviceUuidFactory.getIMEI(this));
         });
     }
 
-    private boolean checkPermission() {
-        int result = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU)
-            result = ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS);
-        return result == PackageManager.PERMISSION_GRANTED;
+    private boolean checkPermissions() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            int result = ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS);
+            int result1 = ContextCompat.checkSelfPermission(this, READ_PHONE_STATE);
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+        } else {
+            int result = ContextCompat.checkSelfPermission(this, READ_PHONE_STATE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     private void requestPermissions() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{POST_NOTIFICATIONS, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -75,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (!checkPermission()) requestPermissions();
+                if (!checkPermissions()) requestPermissions();
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
             } else {

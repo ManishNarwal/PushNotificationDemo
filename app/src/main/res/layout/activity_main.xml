@@ -4,20 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tvToken"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/fcm_token"
         android:textSize="18sp"
         android:textStyle="bold|italic"
+        android:layout_marginTop="25dp"
         app:layout_constraintBottom_toTopOf="@id/btnToken"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIMEI" />
+
+    <TextView
+        android:id="@+id/tvDeviceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/device_id"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@id/tvIMEI"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvIMEI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/imei"
+        android:textSize="18sp"
+        android:layout_marginTop="25dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@id/tvToken"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeviceID" />
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnToken"
         android:layout_width="wrap_content"

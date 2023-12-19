@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PushNotificationDemo</string>
     <string name="get_token">Get Token</string>
+    <string name="fcm_token">FCM Token</string>
+    <string name="device_id">Device ID</string>
+    <string name="imei">IMEI</string>
 </resources>
