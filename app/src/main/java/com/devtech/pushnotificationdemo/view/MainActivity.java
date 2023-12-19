@@ -29,8 +29,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import timber.log.Timber;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     private TokenViewModel model;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
