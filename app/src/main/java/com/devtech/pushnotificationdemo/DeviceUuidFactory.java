@@ -32,17 +32,40 @@ public class DeviceUuidFactory {
         return java.util.UUID.randomUUID().toString();
     }
     public static String getIMEI(Context context) {
-        String imei = null;
+        String deviceId = null;
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                imei = telephonyManager.getImei();
-                Toast.makeText(context, "IMEI: " + imei, Toast.LENGTH_SHORT).show();
+                deviceId = telephonyManager.getImei();
+                Toast.makeText(context, "IMEI: " + deviceId, Toast.LENGTH_SHORT).show();
             } else {
+                // For devices below Android Oreo
+                deviceId = telephonyManager.getDeviceId();
                 Toast.makeText(context, "IMEI not available on this device.", Toast.LENGTH_SHORT).show();
             }
         }
-        return imei;
+        return deviceId;
+    }
+    public static String getDeviceId(Context context) {
+
+        String deviceId;
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            deviceId = Settings.Secure.getString(
+                    context.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+        } else {
+            final TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (mTelephony.getDeviceId() != null) {
+                deviceId = mTelephony.getDeviceId();
+            } else {
+                deviceId = Settings.Secure.getString(
+                        context.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+            }
+        }
+
+        return deviceId;
     }
 }
 
